@@ -1,7 +1,7 @@
 from django.urls import path
-from . import views
+from .views import ReactAppView, DataInputView
 
 urlpatterns = [
-    path('api/tasks/', views.task_list),
-    path('api/tasks/complete/<int:task_id>/', views.complete_task),
+    path('', ReactAppView.as_view(), name = 'react_app'),
+    path('api/submit/', DataInputView.as_view(), name='submit_data'),
 ]
