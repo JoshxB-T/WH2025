@@ -1,11 +1,13 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Typography, Button, Stack, Box, TextField } from "@mui/material";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { QuestContext } from "./QuestManager";
 
 function Add() {
     const [form, setForm] = useState({tname: "", duration: "",  apps: "", priority: "", deadline: ""})
     const navigate = useNavigate();
+    const { insertQuest } = useContext(QuestContext);
 
     const setData = (e) => {
         setForm({...form, [e.target.name]: e.target.value})
@@ -13,7 +15,9 @@ function Add() {
 
     const handleSubmit = (e) => {
         // gotta write
-        navigate("/quests")
+        e.preventDefault();
+        insertQuest(form);
+        navigate("/");
     }
 
     const goBack = (e) => {
