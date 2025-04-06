@@ -2,12 +2,14 @@ import React, { useContext, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { QuestContext } from "./QuestManager";
+import Loading from './LoadingAnimation'
+import { motion } from "framer-motion"; // Don't forget to import motion
 
 function Popup() {
   const navigate = useNavigate(); // For navigation
   const location = useLocation(); // Access passed task details
   const { removeQuest } = useContext(QuestContext); // Access removeQuest from context
-  const task = location.state?.task || { tname: "Unknown Task", duration: "5 seconds", index: 0 }; // Default values
+  const task = location.state?.tempTask || { tname: "Unknown Task", duration: "5 seconds", index: 0 }; // Default values
 
   useEffect(() => {
     // Convert task duration into milliseconds
@@ -42,44 +44,49 @@ function Popup() {
   };
 
   return (
-    <Box
-      position="fixed"
-      top={0}
-      left={0}
-      width="100vw"
-      height="100vh"
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      bgcolor="rgba(0, 0, 0, 0.5)" // Semi-transparent background overlay
-      zIndex={1500} // Ensure it's layered above the main page
-    >
+    <Box>
+      {/* <Loading /> */}
+      {/* Animated Background */}
+      {/* Content Box */}
       <Box
-        width="300px"
-        padding="16px"
-        bgcolor="rgba(255, 255, 255, 0.9)" // Popup box with slight transparency
-        color="black"
-        borderRadius="8px"
-        boxShadow="0 4px 10px rgba(0, 0, 0, 0.3)"
+        position="fixed"
+        top={0}
+        left={0}
+        width="100vw"
+        height="100vh"
         display="flex"
-        flexDirection="column"
+        justifyContent="center"
         alignItems="center"
+        bgcolor="rgba(0, 0, 0, 0.5)" // Semi-transparent background overlay
+        zIndex={1500} // Ensure it's layered above the background
       >
-        <Typography variant="h6" gutterBottom>
-          Task In Progress
-        </Typography>
-        <Typography variant="body2" textAlign="center" marginBottom="16px">
-          You are working on "{task.tname}". It will auto-complete in{" "}
-          {task.duration} or click "Finish Task" to complete it manually.
-        </Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleFinishTask}
-          sx={{ alignSelf: "center" }}
+        <Box
+          width="300px"
+          padding="16px"
+          bgcolor="rgba(169, 169, 169, 0.9)" // Grey background for the popup
+          color="black"
+          borderRadius="8px"
+          boxShadow="0 4px 10px rgba(0, 0, 0, 0.3)"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
         >
-          Finish Task
-        </Button>
+          <Typography variant="h6" gutterBottom>
+            Task In Progress
+          </Typography>
+          <Typography variant="body2" textAlign="center" marginBottom="16px">
+            You are working on "{task.tname}". It will auto-complete in{" "}
+            {task.duration} or click "Finish Task" to complete it manually.
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleFinishTask}
+            sx={{ alignSelf: "center" }}
+          >
+            Finish Task
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

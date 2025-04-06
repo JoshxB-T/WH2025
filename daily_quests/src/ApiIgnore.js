@@ -16,7 +16,7 @@ function SortAndDisplayQuests() {
       Sort these tasks in the following order:
       1. First by deadline (earliest first).
       2. If deadlines are the same, by priority (higher priority first).
-      3. If priority is also the same, by estimated duration (shortest duration first).
+      3. If priority is also the same, by estimated duration (longest duration first).
 
       Return the sorted list in JSON format.
     `;

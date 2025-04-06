@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { QuestContext } from "./QuestManager";
 
 function Add() {
-    const [form, setForm] = useState({tname: "", duration: "",  apps: "", priority: "", deadline: ""})
+    const [form, setForm] = useState({tname: "", duration: "", priority: "", deadline: ""})
     const navigate = useNavigate();
     const { insertQuest } = useContext(QuestContext);
 
@@ -41,9 +41,8 @@ function Add() {
                 <Stack padding={2} spacing={2}>
                     <TextField id="outlined-basic" label="Task Name" name="tname" value={form.tname} onChange={setData} required/>
                     <TextField id="outlined-basic" label="Estimated Task Duration" name="duration" value={form.duration} onChange={setData} required/>
-                    <TextField id="outlined-basic" label="Apps Needed" name="apps" value={form.apps} onChange={setData} required/>
                     <TextField id="outlined-basic" label="Task Priority" name="priority" value={form.priority} onChange={setData} required/>
-                    <TextField id="outlined-basic" label="Task Deadline" name="deadline" value={form.deadline} onChange={setData} required/>
+                    <TextField id="outlined-basic" label="Task Deadline" name="deadline" value={form.deadline} onChange={setData} type="date" required/>
                 </Stack>
 
                 <Button variant='contained' color='primary' onClick={handleSubmit} padding={2}>

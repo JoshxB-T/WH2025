@@ -33,7 +33,7 @@ function Quests() {
 
             {/* Animation */}
             <Box width="80%" height = "60%" display="flex" justifyContent="center" alignItems="center" sx={{ position: "absolute", zIndex: 1, top: "150px", left: "200px", overflow: "hidden"}} >
-                <Animation />
+                {/* <Animation /> */}
             </Box>
 
 
