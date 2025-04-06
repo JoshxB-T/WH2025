@@ -6,6 +6,7 @@ import Quests from './Quests';
 import Add from './Add';
 import Tester from './Testing';
 import View from './View';
+import Popup from './Popup';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import QuestProvider from './QuestManager';
 
@@ -19,6 +20,7 @@ root.render(
           <Route path="/quests" element={<Quests />} />
           <Route path="/add" element={<Add />} />
           <Route path="/view" element={<View />} />
+          <Route path="/popup" element={<Popup />} />
         </Routes>
       </Router>
     </QuestProvider>

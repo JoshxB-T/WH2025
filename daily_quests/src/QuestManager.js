@@ -10,8 +10,12 @@ function QuestsManager( { children } ) {
         setQuests( (prevQuests) => [...prevQuests, currQuest]);
     }
 
+    const removeQuest = (currQuest) => {
+        setQuests((prevQuests) => prevQuests.filter((_, i) => i !== currQuest));
+    }
+
     return (
-        <QuestContext.Provider value = {{quests, insertQuest}}>
+        <QuestContext.Provider value = {{quests, insertQuest, removeQuest}}>
             { children }
         </QuestContext.Provider>
     );
