@@ -5,6 +5,7 @@ export const QuestContext = createContext();
 
 function QuestsManager( { children } ) {
     const [quests, setQuests] = useState([]);
+    const [completedQuests, setCompletedQuests] = useState([]);
 
     // Async function to send quest data to Django
     const sendQuestToBackend = async (currQuest) => {
@@ -34,11 +35,16 @@ function QuestsManager( { children } ) {
     }
 
     const removeQuest = (currQuest) => {
-        setQuests((prevQuests) => prevQuests.filter((_, i) => i !== currQuest));
-    }
+        setQuests((prevQuests) => {
+          const questToRemove = prevQuests[currQuest]; // Get the task being removed
+          setCompletedQuests((prevCompleted) => [...prevCompleted, questToRemove]); // Add to completed quests
+          return prevQuests.filter((_, i) => i !== currQuest);
+        });
+      };
+    
 
     return (
-        <QuestContext.Provider value = {{quests, insertQuest, removeQuest}}>
+        <QuestContext.Provider value = {{quests, insertQuest, removeQuest, completedQuests}}>
             { children }
         </QuestContext.Provider>
     );

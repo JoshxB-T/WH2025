@@ -77,11 +77,6 @@ function Options() {
                         <Button variant="outlined" onClick={handleAddClick}>
                             Add Task
                         </Button>
-                        
-                        {/* // remove if it causes issues */}
-                        {/* <Button variant="outlined" onClick={() => sortQuests(quests, setQuests, ai)}>
-                            Sort Tasks
-                        </Button> */}
 
                         <Button variant="outlined" onClick={handleViewClick}>
                             View Tasks

@@ -14,6 +14,7 @@ function ViewTasks() {
   };
 
   const beginTask = (idx) => {
+    console.log(idx, quests.length, quests[idx])
     const tempTask = quests[idx]; // Get the task details
     removeQuest(idx);
     navigate("/popup", { state: { tempTask } });
