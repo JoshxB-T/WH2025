@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
+import { QuestContext } from "./QuestManager";
 
 function Popup() {
   const navigate = useNavigate(); // For navigation
-  const location = useLocation(); // Access task details passed via state
-  const task = location.state?.task || { tname: "Unknown Task", duration: "5 seconds" }; // Default values
+  const location = useLocation(); // Access passed task details
+  const { removeQuest } = useContext(QuestContext); // Access removeQuest from context
+  const task = location.state?.task || { tname: "Unknown Task", duration: "5 seconds", index: 0 }; // Default values
 
   useEffect(() => {
     // Convert task duration into milliseconds
@@ -27,14 +29,16 @@ function Popup() {
     };
 
     const timer = setTimeout(() => {
-      navigate(-1); // Navigate back after task duration
-    }, parseDuration(task.duration)); // Use parsed duration
+      removeQuest(task.index); // Automatically remove the task after its duration
+      navigate(-1); // Navigate back to the previous page
+    }, parseDuration(task.duration));
 
     return () => clearTimeout(timer); // Clean up timer on unmount
-  }, [task, navigate]);
+  }, [task, navigate, removeQuest]);
 
   const handleFinishTask = () => {
-    navigate(-1); // Navigate back to the previous page when button is clicked
+    removeQuest(task.index); // Manually remove the task when "Finish Task" is clicked
+    navigate(-1); // Navigate back to the previous page
   };
 
   return (
@@ -74,7 +78,7 @@ function Popup() {
           onClick={handleFinishTask}
           sx={{ alignSelf: "center" }}
         >
-          Task Finished
+          Finish Task
         </Button>
       </Box>
     </Box>

@@ -41,12 +41,6 @@ function Quests() {
             <Box sx={{alignSelf: "flex-start", paddingLeft: 2}}>
                 <Tasks />
             </Box>
-
-
-
-
-
-
            
         </Box>
         
