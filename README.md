@@ -15,4 +15,4 @@ MLH Challenges:
 Best Use of Gemini API
 
 Usage of libraries, frameworks, or open-source code:
-ChatGPT
+ChatGPT, Django REST framework
