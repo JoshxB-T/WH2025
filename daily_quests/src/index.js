@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Quests from './Quests';
+import Add from './Add';
+import Tester from './Testing';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+   <Router>
+      <Routes>
+        <Route path="/" element={<Tester />} />
+        <Route path="/quests" element={<Quests />} />
+        <Route path="/add" element={<Add />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
 
