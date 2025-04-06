@@ -1,19 +1,19 @@
 import os
 import json
 import requests
+import google.generativeai as genai
 from django.http import JsonResponse
 from django.http import HttpResponse, Http404
 from django.views import View
 from django.conf import settings
+
 
 # Show client React
 class ReactAppView(View):
     def get(self, request):
         try:
             # Manually set path to the build/index.html file
-            index_path = r'C:\Users\josht\OneDrive\Desktop\World\WildHacks2025\WH2025\daily_quests\build\index.html'
-
-            # print("Looking for React index at:", index_path)  # FIXME: Delete after debugging
+            index_path = settings.REACT_STATIC_PATH_2
 
             # Send React view to client
             with open(index_path) as f:
@@ -21,53 +21,40 @@ class ReactAppView(View):
         except FileNotFoundError:
             raise Http404("React build not found")
 
-# Store client data
+
+# Store client's task
 class DataInputView(View):
-    def post(self, request):
-        try:
-            # Save data from request
-            data = json.loads(request.body)
+    # Store client data
+    def store_data(request):
+        if request.method == 'POST':
+            try:
+                data = json.loads(request.body)
 
-            # Extract user's input
-            user_input = data.get('user_input')
-            
-            # Create a JSON file of received info
-            response_data = {
-                'message': 'Data received successfully',
-                'input_received': user_input
-            }
+                # Print for now
+                print("Received task:", data)
 
-            return JsonResponse(response_data, status=200)
-        except json.JSONDecodeError:
-            return JsonResponse({'message': 'Invalid JSON'}, status=400)
+                return JsonResponse({'message': 'Task received successfully'}, status=200)
+            except Exception as e:
+                return JsonResponse({'error': str(e)}, status=400)
 
-# Make call to Gemini
-class GoogleGeminiView(View):
-    def post(self, request):
-        # JSON file creation to prompt Gemini
-        input_data = {
-            "Greeting": "Say hello, Gemini"
-        }
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-        # URL to specific model        
-        api_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent'
-        
-        # Generated key
-        api_key = 'AIzaSyABRINsBRYZB_bHtpDYj-QYempdLmjMNmE'
 
-        # Request headers        
-        headers = {
-            'Content-Type': 'application/json',
-            'Authorization': f'Bearer {api_key}',
-        }
+# Call Gemini API
+def gemini_test_view(request):
+    try:
+        # Get Gemini API key
+        genai.configure(api_key = settings.GEMINI_API_KEY)
 
-        # Create prompt for Gemini
-        response = requests.post(api_url, json=input_data, headers=headers)
+        # Specify model
+        model = genai.GenerativeModel("gemini-2.0-flash")
 
-        if response.status_code == 200:
-            # Request is successful
-            response_data = response.json()
-            return JsonResponse(response_data, status=200)
-        else:
-            # Request fails
-            return JsonResponse({"error": "Failed to interact with Gemini"}, status=500)
+        # Prompt to generate a story based off task
+        narrative = "Generate a narrative using the following list: "
+
+        # Get response
+        response = model.generate_content(narrative)
+
+        return JsonResponse({"gemini_response": response.text})
+    except Exception as e:
+        return JsonResponse({"error": str(e)})
