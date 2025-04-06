@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 import {Button, Popover, Stack } from "@mui/material";
 import Add from './Add'
+import { useNavigate } from "react-router-dom";
 
 function Options() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [addForm, setAddForm] = useState(false);
+    const navigate = useNavigate();
 
     const handlePopOverClick = (event) => {
         if (!anchorEl) {
@@ -25,6 +27,8 @@ function Options() {
 
     const handleViewClick = () => {
         // gotta do
+        navigate("/view");
+        setAnchorEl(null);
     }
 
     const id = Boolean(anchorEl) ? 'simple-popover' : undefined;
